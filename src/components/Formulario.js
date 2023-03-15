@@ -12,20 +12,41 @@ import {
 import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 
-const Formulario = ({modalVisible, setModalVisible}) => {
+const Formulario = ({
+  modalVisible,
+  setModalVisible,
+  pacientes,
+  setPacientes,
+}) => {
   const [paciente, setPaciente] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
   const [telefono, setTelefono] = useState('');
-  const [sintomas, setSintomas] = useState('');
-
   const [fecha, setFecha] = useState(new Date());
+  const [sintomas, setSintomas] = useState('');
 
   const handleCita = () => {
     if ([paciente, propietario, email, fecha, sintomas].includes('')) {
       Alert.alert('Error', 'Todos los campos son obligatorios');
       return;
     }
+    const nuevoPaciente = {
+      id:Date.now(),
+      paciente,
+      propietario,
+      email,
+      telefono,
+      fecha,
+      sintomas,
+    };
+    setPacientes([...pacientes, nuevoPaciente]);
+    setModalVisible(false);
+    setPaciente('');
+    setPropietario('');
+    setEmail('');
+    setTelefono('');
+    setFecha(new Date());
+    setSintomas('');
   };
   return (
     <Modal animationType="slide" visible={modalVisible}>
